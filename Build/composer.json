@@ -1,0 +1,17 @@
+{
+    "name": "yagya/build",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "yagya adhikari",
+            "email": "yagyaadhikari02@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

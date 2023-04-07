@@ -1,0 +1,97 @@
+Inside Application:
+public function run()
+{
+    echo $this->router->resolve();
+}
+ 
+
+
+
+Inside router :
+public function resolve()
+{
+
+    $path=$this->request->getPath();
+    $method=$this->request->getMethod();
+    $callback=$this->routes[$method][$path] ?? false;
+
+    if($callback ===false){
+        return "Not found";
+    }
+
+    if(is_string($callback)){
+
+        return $this->renderView($callback);
+    }
+    
+    
+    return call_user_func($callback);
+
+}
+
+
+
+
+
+public function  renderView($view)
+{
+    $layoutContent=$this->layoutContent();
+    $viewContent=$this->renderOnlyview();
+    
+/*
+    SYNTAX
+    return str_replace('{{content}}',destination ,source);
+*/
+
+
+
+    return str_replace('{{content}}',$viewContent,$layoutContent);
+    include_once Application::$ROOT_DIR."/views/$view.php";
+
+}
+
+
+
+protected function  layoutContent()
+{
+    ob_start();
+    include_once Application::$ROOT_DIR."/views/layouts/main.php";
+    return ob_get_clean();
+}
+
+
+protected function renderOnlyView($view, $params)
+{
+
+
+        foreach ($params as $key => $value) {
+            $$key = $value;
+        }
+        // echo "<pre>";
+        // print_r($params);
+        // echo "<pre>";
+        // exit;
+
+        ob_start();
+        include_once Application::$ROOT_DIR . "/views/$view.php";
+        return ob_get_clean();
+}
+
+
+
+
+Inside views/ 
+            layouts/
+                    main.php
+
+                    <html>
+                    
+                    {{content}}
+                    
+                    </html>
+
+
+
+Inside views/ 
+            home.php
+            <h1>home</h1>
