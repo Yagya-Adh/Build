@@ -23,10 +23,14 @@ abstract class DbModel extends Model
         //Dynamic sts
         $statement = self::prepare("INSERT INTO  $tableName(" . implode(',', $attributes) . ") 
                     VALUES(" . implode(',', $params) . ")");
-        // echo "<pre>";
-        // var_dump($statement, $params, $attributes);
-        // echo "<pre>";
-        // exit;
+
+
+        echo "<pre>";
+        var_dump($statement, $params, $attributes);
+        echo "<pre>";
+        exit;
+
+
         foreach ($attributes as $attribute) {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
