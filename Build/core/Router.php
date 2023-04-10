@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\core\exception\NotFountException;
+
 /**
  * Router constructor
  * 
@@ -17,10 +19,10 @@ class Router
 
     protected array $routes = [];
 
-    public function __construct(Request $request,Response $response)
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
-        $this->response=$response;
+        $this->response = $response;
     }
 
 
@@ -44,35 +46,38 @@ class Router
         $method = $this->request->method();
         //now callback
         $callback = $this->routes[$method][$path] ?? false;
-        
+
         if ($callback === false) {
-           $this->response->setStatusCode(404);
-        //    return "Not found";
-            return $this->renderView("_404");
+            // $this->response->setStatusCode(404);
+            //    return "Not found";
+            // return $this->renderView("_error");
+            throw new NotFountException();
         }
-        
-   
+
+
         /* function callback */
         if (is_string($callback)) {
             return $this->renderView($callback);
         }
-        
-        
-        /* array callback */
-        if (is_array($callback)) {            
-            /* creating instance of conrtoller */
-            // $callback[0] = new $callback[0]();      
-                          
-            Application::$app->controller = new $callback[0]();            
-            $callback[0] = Application::$app->controller;
-        }
-        
-        // echo "<pre>";
-        // var_dump($callback);
-        // echo "</pre>";
-        // exit;
 
-        return call_user_func($callback, $this->request);
+
+        /* array callback */
+        if (is_array($callback)) {
+            /* creating instance of conrtoller */
+
+            /**  @var app\core\Controller $controller  */
+            $controller = new $callback[0]();
+            Application::$app->controller = $controller;
+            $controller->action = $callback[1];
+            $callback[0] = $controller;
+
+            //middleware start
+            foreach ($controller->getMiddleware() as $middleware) {
+                $middleware->execute();
+            }
+        }
+
+        return call_user_func($callback, $this->request, $this->response);
     }
 
 
@@ -88,7 +93,10 @@ class Router
 
     protected function layoutContent()
     {
-        $layout = Application::$app->controller->layout;
+        $layout = Application::$app->layout;
+        if (Application::$app->controller) {
+            $layout = Application::$app->controller->layout;
+        }
         ob_start();  //cache of outputs
         include_once Application::$ROOT_DIR . "/views/layouts/$layout.php"; //thhis is included
         return ob_get_clean();  //returns the outputing to browser and clear the buffer
@@ -100,7 +108,7 @@ class Router
         foreach ($params as $key => $value) {
             $$key = $value;
         }
-      
+
 
         ob_start();
         include_once Application::$ROOT_DIR . "/views/$view.php";

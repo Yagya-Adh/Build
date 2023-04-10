@@ -1,0 +1,187 @@
+Example 1)
+
+In php  refrence varriable level:
+if the following varriable  exists ,
+
+$a=10;
+$b='a';
+$c='b';
+
+we do 
+
+for single variable we do    $a    
+for two variavle we do       $$b
+for three variable we do     $$$c
+
+so on ...  $$$$$$$...$a as much as level goes on 
+
+
+Example 2)
+
+<?php
+$juice = "apple";
+
+echo "He drank some $juice juice.".PHP_EOL;
+// Invalid. "s" is a valid character for a variable name, but the variable is $juice.
+echo "He drank some juice made of $juices.";
+// Valid. Explicitly specify the end of the variable name by enclosing it in braces:
+echo "He drank some juice made of ${juice}s.";
+?>
+         
+         
+          OR,
+
+        e.g: $a = 'blah'; 
+        echo "$abc"; 
+        will echo nothing since $abc is not set while
+        $a = 'blah';
+        echo "${a}bc"; will echo 'blahbc'
+
+
+
+Example 3)
+
+        // $dsn = $config['dsn'] ?? '';
+        // $user = $config['user'] ?? '';
+        // $password = $config['password'] ?? '';
+        // try {
+        //     $this->pdo = new \PDO($dsn, $user, $password);
+        //     $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        // } catch (\PDOException $e) {
+
+        //     // echo "<pre>";
+        //     // var_dump($e);
+        //     // echo "</pre>";
+        //     die("Connection failed: " . $e->getMessage());
+        // }
+
+
+
+
+
+
+
+
+
+
+// Example 1)
+// In general
+$a = ['One', 'Two', 'Three'];
+echo implode(',', $a);
+$cal = array_map(fn ($c) => ":$c", $a);
+
+echo "<pre>";
+print_r($cal);
+echo "</pre>";
+
+// Example 2)
+// Application for query 
+
+$a = ['name', 'password', 'email'];
+$p = array_map(fn ($c) => ":$c", $a);
+$statement = "INSERT INTO table(" . implode(',', $a) . ")
+ VALUES(" . implode(',', $p) . ");";
+
+echo "<pre>";
+print_r($statement);
+echo "</pre>";
+
+
+// class Live
+// {
+
+//     public $place = "Im from chitwan";
+//     public $where;
+
+//     public function where()
+//     {
+//         echo $this->where = "${place}s";
+//     }
+// }
+
+
+// Example:1) Refrence varriable 
+
+$juice = "Apple";
+echo "I like to eat {{$juice}s} juice.  <br/>";
+$j = 'juice';
+$ju = 'j';
+
+echo    $$ju;
+
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
+// Example:2) Refrence varriable 
+$juice = "Apple";
+echo "I like to eat {{$juice}s} juice.  <br/>";
+
+$j = 'juice';
+$ju = &$j;
+
+echo    $$ju;
+
+
+
+
+
+
+
+Example static::class 
+static::class is a special keyword in PHP that allows 
+you to get the fully-qualified class name of the current class
+ at runtime, without having to hardcode the class name.
+
+
+The benefit of using static::class over hardcoding the 
+class name is that if you later decide to rename the class, 
+you don't need to update all the places where you referenced 
+the old class name. This can help to make your 
+code more maintainable and easier to refactor.
+
+class MyClass {
+    public function getClassName() {
+        return static::class;
+    }
+}
+
+$myClass = new MyClass();
+echo $myClass->getClassName(); // Outputs "MyClass"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

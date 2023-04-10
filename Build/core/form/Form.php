@@ -16,9 +16,8 @@ class Form
     //spirintf()  -go and  look it for 
     public static function begin($action, $method)
     {
-
         echo sprintf('<form action="%s" method="%s">', $action, $method);
-        return new Form();
+        return new Form(); //instance of Form ?????????
     }
 
 

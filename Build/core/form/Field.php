@@ -9,7 +9,7 @@ use app\core\Model;
  * @package app\core\form
  */
 
-class  Field
+class Field
 {
     /* type */
     public const TYPE_TEXT = 'text';
@@ -35,7 +35,7 @@ class  Field
             '
             <div class="form-group">
                 <label>%s</label>
-                <input type="%s"  name="%s" value="%s" class="form-control%s"   >
+                <input type="%s"  name="%s" value="%s" class="form-control %s">
                 <div class="invalid-feedback">
                     %s
                 </div>                

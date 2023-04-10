@@ -50,35 +50,36 @@ abstract class Model
     {
         /* we gone iterate the  rules() array  from model.php in RegisterModel.php */
         foreach ($this->rules() as $attribute => $rules) {
-            $value = $this->{$attribute};
+
+            $value = $this->{$attribute}; //key
 
             foreach ($rules as $rule) {
-                $ruleName = $rule;
+                $ruleName = $rule; //value
 
                 if (!is_array($ruleName)) {
                     $ruleName = $rule[0];
                 }
 
                 if ($ruleName === self::RULE_REQUIRED && !$value) {
-                    $this->addError($attribute, self::RULE_REQUIRED);
+                    $this->addErrorForRule($attribute, self::RULE_REQUIRED);
                 }
 
                 if ($ruleName === self::RULE_EMAIL && filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $this->addError($attribute, self::RULE_EMAIL);
+                    $this->addErrorForRule($attribute, self::RULE_EMAIL);
                 }
 
                 if ($ruleName === self::RULE_MIN && strlen($value) < $rule['min']) {
-                    $this->addError($attribute, self::RULE_MIN, $rule);
+                    $this->addErrorForRule($attribute, self::RULE_MIN, $rule);
                 }
 
                 if ($ruleName === self::RULE_MAX && strlen($value) > $rule['max']) {
-                    $this->addError($attribute, self::RULE_MAX, $rule); //
+                    $this->addErrorForRule($attribute, self::RULE_MAX, $rule); //
                 }
 
 
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
-                    $rule['match'] =   $this->getLabel($rule['match']);
-                    $this->addError($attribute, self::RULE_MATCH, $rule); //
+                    $rule['match'] = $this->getLabel($rule['match']);
+                    $this->addErrorForRule($attribute, self::RULE_MATCH, $rule); //
                 }
 
 
@@ -100,7 +101,7 @@ abstract class Model
 
                     //already exists message error
                     if ($record) {
-                        $this->addError($attribute, self::RULE_UNIQUE, ['field' => $this->getLabel($attribute)]);
+                        $this->addErrorForRule($attribute, self::RULE_UNIQUE, ['field' => $this->getLabel($attribute)]);
                     }
                 }
             }
@@ -111,7 +112,7 @@ abstract class Model
 
 
     /* errors */
-    public function addError(string $attribute, string $rule, $params = [])
+    private function addErrorForRule(string $attribute, string $rule, $params = [])
     {
         /* replace {min} and {max} with $value in this foreach iteration */
         $message = $this->errorMessages()[$rule] ?? ''; //
@@ -121,6 +122,11 @@ abstract class Model
         $this->errors[$attribute][] = $message;     //
     }
 
+    public function addError(string $attribute, string $message)
+    {
+        /* replace {min} and {max} with $value in this foreach iteration */
+        $this->errors[$attribute][] = $message;
+    }
 
     public function errorMessages()
     {
@@ -130,7 +136,7 @@ abstract class Model
             self::RULE_MIN => 'Min length of this field must be {min}',
             self::RULE_MAX => 'Max length of this field must be {max}',
             self::RULE_MATCH => 'This field must be the same as {match}',
-            self::RULE_UNIQUE => 'Record with this { field } already exists',
+            self::RULE_UNIQUE => 'Record with this {field} already exists',
         ];
     }
 

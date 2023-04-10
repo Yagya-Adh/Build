@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 use app\controllers\SiteController;
 use app\controllers\AuthController;
 use \app\core\Application;
+use app\models\User;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -14,6 +15,8 @@ $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
 $config = [
+
+    'userClass' => User::class,
     'db' => [
         'dsn' => $_ENV['DB_DSN'],
         'user' => $_ENV['DB_USER'],
@@ -31,5 +34,10 @@ $app->router->get('/login', [new AuthController(), 'login']);
 $app->router->post('/login', [new AuthController(), 'login']);
 $app->router->get('/register', [new AuthController(), 'register']);
 $app->router->post('/register', [new AuthController(), 'register']);
+
+
+$app->router->get('/logout', [new AuthController(), 'logout']);
+$app->router->get('/profile', [new AuthController(), 'profile']);
+
 
 $app->run();

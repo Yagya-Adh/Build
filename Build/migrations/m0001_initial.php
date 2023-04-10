@@ -21,11 +21,11 @@ class m0001_initial
         $db = Application::$app->db;
         //sql create statement
         $SQL = "CREATE TABLE users(
-            id INT AUTO_INCREMENT PRIMARY_KEY,
+            id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL,
             firstname VARCHAR(255) NOT NULL,
             lastname VARCHAR(255) NOT NULL,
-            status TINYINT NOT_NULL,
+            status TINYINT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=INNODB;";
 

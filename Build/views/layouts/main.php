@@ -1,6 +1,10 @@
 <?php
 
 use app\core\Application;
+
+echo "<pre>";
+print_r(Application::$app->user);
+echo "</pre>";
 ?>
 
 
@@ -25,7 +29,7 @@ use app\core\Application;
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link active" href="/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/contact">contact</a>
@@ -34,15 +38,35 @@ use app\core\Application;
                 </ul>
 
 
-                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
+                <!-- login/logout -->
+                <?php if (Application::isGuest()) : ?>
+                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/login">Login <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Register</a>
+                        </li>
+                    </ul>
+                <?php else : ?>
 
-                </ul>
+                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/profile"> Profile </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/logout">Welcome <?php echo Application::$app->user->getDisplayName() ?>
+                                (Logout)
+                            </a>
+                        </li>
+
+                    </ul>
+                <?php endif; ?>
+
+
+
 
             </div>
         </div>
@@ -51,9 +75,9 @@ use app\core\Application;
     <!-- from here contents will render -->
     <div class="container">
 
-        <?php if (Application::$app->session->getFlash('success')) :  ?>
-            <div class="alert alert-sucess">
-                <?php echo Application::$app->session->getFlash('success');       ?>
+        <?php if (Application::$app->session->getFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Application::$app->session->getFlash('success') ?>
             </div>
         <?php endif; ?>
 
