@@ -2,6 +2,9 @@
 
 namespace app\core;
 
+use app\core\db\Database;
+use app\core\db\DbModel;
+
 /**
  *
  * @author yagya <yagyaadhikari02@gmail.com>
@@ -20,7 +23,10 @@ class Application
     public Database $db;
 
     public string $userClass;
-    public ?DbModel $user;  //? before any instance or, variavle represents null or, something
+    public ?UserModel $user;  //? before any instance or, variavle represents null or, something
+
+    public View $view;
+
 
     public static Application $app;
     public ?Controller $controller = null;
@@ -43,6 +49,10 @@ class Application
 
         $this->controller = new Controller();
 
+        $this->view = new View();
+
+
+
         //Database 
         $this->db = new Database($config['db']);
 
@@ -63,16 +73,15 @@ class Application
         return !self::$app->user;
     }
 
+    //
     public function run()
     {
+        //form here middleware throws exception to visit page or, not
         try {
             echo $this->router->resolve();
         } catch (\Exception $e) {
-
-
             $this->response->setStatusCode($e->getCode());
-
-            echo $this->router->renderView('_error', [
+            echo $this->view->renderView('_error', [
                 'exception' => $e
             ]);
         }
@@ -93,7 +102,7 @@ class Application
 
 
     //login
-    public function login(DbModel $user)
+    public function login(UserModel $user)
     {
         //we just into save the user into session 
 

@@ -1,11 +1,9 @@
 <?php
 
-namespace app\core\ForbiddenException;
+namespace app\core\exception;
 
 /**
- *@package app\core\ForbiddenException 
- * 
- *  
+ *@package app\core\exception 
  */
 
 

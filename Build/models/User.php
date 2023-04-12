@@ -4,7 +4,6 @@ namespace app\models;
 
 use app\core\UserModel;
 
-// use app\core\Model;
 
 //this class is the mapping of user table 
 

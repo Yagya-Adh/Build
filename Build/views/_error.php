@@ -1,10 +1,6 @@
 <?php
 
-/**
- * 
- * @var $exection \Exception
- * 
- */
+/**  @var Sexception \Exception */
 ?>
 
 

@@ -27,12 +27,12 @@ class Controller
     /* render */
     public function render($view, $params = [])
     {
-        return Application::$app->router->renderView($view, $params);
+        return Application::$app->view->renderView($view, $params);
     }
 
 
 
-
+    //middleware
     public function registerMiddleware(BaseMiddleware $middleware)
     {
         $this->middleware[] = $middleware;

@@ -7,7 +7,10 @@
  * @package app\core
  */
 
-namespace app\core;
+namespace app\core\db;
+
+use app\core\Application;
+use app\core\Model;
 
 //base active record class 
 abstract class DbModel extends Model

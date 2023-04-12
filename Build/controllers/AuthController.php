@@ -16,7 +16,7 @@ class AuthController extends Controller
 
   public function __construct()
   {
-    $this->registerMiddleware(new AuthMiddleware(['profile']));    //middleware
+    $this->registerMiddleware(new AuthMiddleware(['profile']));    //middleware , to restric profile only
   }
 
   public function login(Request $request, Response $response)
@@ -27,8 +27,6 @@ class AuthController extends Controller
       if ($loginForm->validate() && $loginForm->login()) {
 
         $response->redirect('/');
-
-
         return;
       }
     }

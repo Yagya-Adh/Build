@@ -2,9 +2,6 @@
 
 use app\core\Application;
 
-echo "<pre>";
-print_r(Application::$app->user);
-echo "</pre>";
 ?>
 
 
@@ -14,7 +11,9 @@ echo "</pre>";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MVC</title>
+
+    <title><?php echo $this->title; ?></title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
@@ -48,20 +47,18 @@ echo "</pre>";
                             <a class="nav-link" href="/register">Register</a>
                         </li>
                     </ul>
+
                 <?php else : ?>
 
                     <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-
                         <li class="nav-item">
                             <a class="nav-link active" href="/profile"> Profile </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link active" href="/logout">Welcome <?php echo Application::$app->user->getDisplayName() ?>
                                 (Logout)
                             </a>
                         </li>
-
                     </ul>
                 <?php endif; ?>
 
